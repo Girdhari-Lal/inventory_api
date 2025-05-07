@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from inventory.models import Unit, Brand, Attribute, AttributeValue, Product, ProductAttribute
+from inventory.models import Unit, Brand, Attribute, AttributeValue, Product, ProductAttribute, Category
 
 class UnitSerializer(serializers.ModelSerializer):
     class Meta:
@@ -19,6 +19,11 @@ class UnitSerializer(serializers.ModelSerializer):
 class BrandSerializer(serializers.ModelSerializer):
     class Meta:
         model = Brand
+        fields = '__all__'
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
         fields = '__all__'
 
 class AttributeSerializer(serializers.ModelSerializer):
@@ -27,23 +32,25 @@ class AttributeSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class AttributeValueSerializer(serializers.ModelSerializer):
-    attribute = AttributeSerializer()
+    # attribute = AttributeSerializer()
 
     class Meta:
         model = AttributeValue
         fields = '__all__'
 
 class ProductSerializer(serializers.ModelSerializer):
+    variant_count = serializers.SerializerMethodField()
     # brand = BrandSerializer()
     # unit_of_measure = UnitSerializer()
 
     class Meta:
         model = Product
         fields = '__all__'
-
+    def get_variant_count(self, obj):
+        return obj.variant_count
 class ProductAttributeSerializer(serializers.ModelSerializer):
-    product = ProductSerializer()
-    attribute_value = AttributeValueSerializer()
+    # product = ProductSerializer(read_only=True)
+    # attribute_value = AttributeValueSerializer(read_only=True)
 
     class Meta:
         model = ProductAttribute
