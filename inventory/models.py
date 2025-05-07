@@ -1,37 +1,43 @@
 from django.db import models
 from django.core.validators import MinValueValidator
 
+# Model representing units of measure (e.g., kg, liter, piece)
 class Unit(models.Model):
     name = models.CharField(max_length=50, unique=True)  
 
     def __str__(self):
         return self.name
 
+# Model representing product brands
 class Brand(models.Model):
     name = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
         return self.name
-    
+
+# Model representing product categories (e.g., Electronics, Clothing)    
 class Category(models.Model):
     name = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
         return self.name
 
+# Model representing product attributes (e.g., color, size)
 class Attribute(models.Model):
     name = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
         return self.name
 
+# Model representing values of a given attribute (e.g., Red for Color)
 class AttributeValue(models.Model):
     attribute = models.ForeignKey(Attribute, on_delete=models.CASCADE, related_name='values')
     value = models.CharField(max_length=100)
 
     def __str__(self):
         return f"{self.attribute.name}: {self.value}"
-    
+
+# Abstract base model to automatically track created and updated timestamps    
 class TimeStampedModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -39,6 +45,7 @@ class TimeStampedModel(models.Model):
     class Meta:
         abstract = True
 
+# Model representing main product information
 class Product(TimeStampedModel):
     name = models.CharField(max_length=50, unique=True, db_index=True)
     brand = models.ForeignKey(Brand, null=True, blank=True, on_delete=models.SET_NULL)
@@ -65,7 +72,7 @@ class Product(TimeStampedModel):
     def variant_count(self):
         return self.productattribute_set.count()
 
-    
+# Model representing a product variant with specific attribute value    
 class ProductAttribute(TimeStampedModel):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     attribute = models.ForeignKey(Attribute, on_delete=models.CASCADE)
