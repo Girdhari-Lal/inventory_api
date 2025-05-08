@@ -82,7 +82,7 @@ This Django-based Product Inventory Management System provides a comprehensive b
 - **PUT http://127.0.0.1:8000/product-attributes/{id}/**: Update a product attribute by ID
 - **DELETE http://127.0.0.1:8000/product-attributes/{id}/**: Delete a product attribute by ID
 
-User Endpoints
+### User Endpoints
 - **POST http://127.0.0.1:8000/register/**: Register a new user.
 - **POST http://127.0.0.1:8000/login/**: Log in to an existing user account and get the JWT tokens.
 - **GET http://127.0.0.1:8000/user/**: Retrieve the authenticated user's profile information.
