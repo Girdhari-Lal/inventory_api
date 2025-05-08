@@ -46,6 +46,8 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = '__all__'
+        read_only_fields = ['created_by']
+
     def get_variant_count(self, obj):
         return obj.variant_count
 class ProductAttributeSerializer(serializers.ModelSerializer):

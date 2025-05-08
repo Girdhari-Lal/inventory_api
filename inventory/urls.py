@@ -15,5 +15,5 @@ urlpatterns = [
     path('attribute-values/', AttributeValueListAndCreateView.as_view()),
     path('attribute-values/<int:pk>/', AttributeValueView.as_view()),
     path('categories/', CategoryListAndCreateView.as_view()),
-    path('categories/<int:pk>/', CategoryView),
+    path('categories/<int:pk>/', CategoryView.as_view()),
 ]

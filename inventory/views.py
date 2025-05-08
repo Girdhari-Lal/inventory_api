@@ -4,10 +4,12 @@ from inventory.models import Product, ProductAttribute, Brand, Unit, Attribute, 
 from inventory.serializers import ( ProductSerializer, ProductAttributeSerializer, BrandSerializer, 
             UnitSerializer, AttributeSerializer, AttributeValueSerializer, CategorySerializer)
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated 
 
 # This api help to get List of all brands or create a new brand 
 # http://127.0.0.1:8000/products/
 class BrandListAndCreateView(APIView):
+    permission_classes = [IsAuthenticated]
     # Return all brands
     def get(self, request):
         brands = Brand.objects.all()
@@ -24,6 +26,7 @@ class BrandListAndCreateView(APIView):
 # This api view help to Retrieve, update, or delete a single brand
 # http://127.0.0.1:8000/products/id/
 class BrandView(APIView):
+    permission_classes = [IsAuthenticated]
     # Get a single brand by ID
     def get(self, request, pk):
         try:
@@ -51,6 +54,7 @@ class BrandView(APIView):
 # Unit API: List all units or create a new 
 # http://127.0.0.1:8000/units/
 class UnitListCreateView(APIView):
+    permission_classes = [IsAuthenticated]
     # Return all units
     def get(self, request):
         units = Unit.objects.all()
@@ -67,6 +71,7 @@ class UnitListCreateView(APIView):
 # Unit API: Retrieve, update, or delete a single unit    
 # http://127.0.0.1:8000/units/id/
 class UnitView(APIView):
+    permission_classes = [IsAuthenticated]
     # Get a single unit by ID
     def get(self, request, pk):
         try:
@@ -99,6 +104,7 @@ class UnitView(APIView):
 # Category API: List all categories or create a new one
 # http://127.0.0.1:8000/categories/   
 class CategoryListAndCreateView(APIView):
+    permission_classes = [IsAuthenticated]
     # Return all categories
     def get(self, request):
         category = Category.objects.all()
@@ -115,6 +121,7 @@ class CategoryListAndCreateView(APIView):
 # Category API: Retrieve, update, or delete a category
 # http://127.0.0.1:8000/categories/id/   
 class CategoryView(APIView):
+    permission_classes = [IsAuthenticated]
     # Get a single category
     def get(self, request, pk):
         try:
@@ -147,6 +154,7 @@ class CategoryView(APIView):
 # Product API: List all products or create a new one
 # http://127.0.0.1:8000/products/   
 class ProductCreateAndListView(APIView):
+    permission_classes = [IsAuthenticated]
     # Return all products
     def get(self, request):
         products = Product.objects.all()
@@ -156,13 +164,14 @@ class ProductCreateAndListView(APIView):
     def post(self, request):
         serializer = ProductSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(created_by=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # Product API: Retrieve, update, or delete a products
 # http://127.0.0.1:8000/products/id/       
 class ProductView(APIView):
+    permission_classes = [IsAuthenticated]
     # Get a single products
     def get(self, request, pk):
         try:
@@ -195,6 +204,7 @@ class ProductView(APIView):
 # Attribute API: List all Attribute or create a new one
 # http://127.0.0.1:8000/attributes/
 class AttributeListAndCreateView(APIView):
+    permission_classes = [IsAuthenticated]
     # Return all Attributes
     def get(self, request):
         attributes = Attribute.objects.all()
@@ -211,6 +221,7 @@ class AttributeListAndCreateView(APIView):
 # Attribute API: Retrieve, update, or delete a Attribute
 # http://127.0.0.1:8000/attributes/id         
 class AttributeView(APIView):
+    permission_classes = [IsAuthenticated]
     # Get a single Attribute
     def get(self, request, pk):
         try:
@@ -242,6 +253,7 @@ class AttributeView(APIView):
 # Attribute-values API: List all Attribute value or create a new one
 # http://127.0.0.1:8000/attribute-values/    
 class AttributeValueListAndCreateView(APIView):
+    permission_classes = [IsAuthenticated]
     # Return all Attributes value
     def get(self, request):
         attribute_values = AttributeValue.objects.all()
@@ -258,6 +270,7 @@ class AttributeValueListAndCreateView(APIView):
 # Attribute Value API: Retrieve, update, or delete a Attribute
 # http://127.0.0.1:8000/attribute-values/id      
 class AttributeValueView(APIView):
+    permission_classes = [IsAuthenticated]
     # Get a single Attribute
     def get(self, request, pk):
         try:
@@ -290,6 +303,7 @@ class AttributeValueView(APIView):
 # Product Attribute API: List all Product Attribute value or create a new one
 # http://127.0.0.1:8000/product-attributes/ 
 class ProductAttributeCreateAndListView(APIView):
+    permission_classes = [IsAuthenticated]
      # Return all Product Attributes value
     def get(self, request):
         product_attributes = ProductAttribute.objects.all()
@@ -306,6 +320,7 @@ class ProductAttributeCreateAndListView(APIView):
 # Product Attribute API: Retrieve, update, or delete a Product Attribute
 # http://127.0.0.1:8000/product-attributes/id/ 
 class ProductAttributeView(APIView):
+    permission_classes = [IsAuthenticated]
     # Get a single Product Attribute
     def get(self, request, pk):
         try:
