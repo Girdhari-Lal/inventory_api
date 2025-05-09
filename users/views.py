@@ -61,10 +61,3 @@ class UserProfileView(APIView):
             )
         serializer = UserProfileSerializer(user)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    
-    def put(self, request):
-        serializer = UserProfileSerializer(request.user, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({'message': 'Profile updated', 'data': serializer.data})
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
